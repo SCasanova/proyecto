@@ -46,7 +46,7 @@ de una manera más estructurada y significativa.
 K-means es un algoritmo de aprendizaje no supervisado que se utiliza
 para agrupar datos en $k$ número de clusters. Es particularmente útil
 cuando tienes un conjunto de datos y quieres identificar patrones o
-grupos subyacentes en él. La “$k$” en k-means representa el número de
+grupos subyacentes en él. La “k” en k-means representa el número de
 clusters que quieres formar.
 
 El algoritmo funciona asignando puntos a clusters de tal manera que la
@@ -76,9 +76,9 @@ Los pasos del algoritmo de K-means son los siguientes:
     más cercano.
 3.  Actualización: Se recalcula el centroide de cada cluster como el
     promedio de todos los puntos asignados a ese cluster.
-4.  teración: Los pasos 2. y 3rau. se repiten hasta que los centroides
-    no cambien significativamente entre iteraciones sucesivas o se
-    alcance un límite de iteraciones.
+4.  teración: Los pasos 2 y 3 se repiten hasta que los centroides no
+    cambien significativamente entre iteraciones sucesivas o se alcance
+    un límite de iteraciones.
 
 ### Supuestos
 
@@ -229,6 +229,33 @@ suficiente como para que los clusters se asemejen a un clasificador. Es
 importante notar como para el caso de $k=3$, parece haber mezcla en los
 clusters pero debemos recordar que estas gráficas son solo la
 representación en 2 dimensiones.
+
+#### Limitaciones/desventajas de k-means
+
+1.⁠ ⁠En general, k-means asume que los clusters tienen formas regulares
+esféricas, por lo que no se desempeña bien en situaciones donde los
+datos no forman clusters regulares de forma natural.
+
+2.⁠ ⁠El algoritmo es muy sensible a la escala de los datos. Si tenemos
+observaciones de características con diferentes escalas lo más probable
+es que se tengan que resacalar los datos.
+
+3.⁠ ⁠Dado que el algoritmo funciona calculando distancias o métricas, es
+muy sensible a los outliers. Esto se puede solucionar con alguna
+generalización que utilice una métrica menos sensible, por ejemplo.
+
+4.⁠ ⁠Se tiene que elegir el número de clusters a priori. En el ejemplo
+sabemos el número de diferentes categorías que tenemos, pero en casos
+más aplicados lo más común es que no se pueda saber la cantidad de
+clusters que realmente existen y ambiguedad en las métricas de decisión
+puede complicar la selección.
+
+La mayor ventaja del algoritmo de k-means es su eficiencia para trabajar
+conjuntos de datos muy grandes con una gran cantidad de observaciones.
+Esto se debe a que solamente se calcula la distancia de cada punto al
+centro del cluster y, a diferencia de los algoritmos de clustering
+jerárquico, no necesita calcular las distancias entre todos los pares de
+puntos.
 
 ### Bibliografía
 
