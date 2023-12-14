@@ -99,11 +99,6 @@ datos para nuestras especies.
 
 ``` r
 require(psych)
-```
-
-    ## Loading required package: psych
-
-``` r
 pairs.panels(iris[,-5],
              gap = 0,
              bg = c("red", "yellow", "blue")[iris$Species],
@@ -111,3 +106,119 @@ pairs.panels(iris[,-5],
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+
+En esta gráfica podemos ver que en todos los casos se mezclan al menos
+dos de nuestras especies mientras que la tercera parece mantenerse en su
+propio cluster.
+
+Para decidir nuestro número de clusters utilizaremos:
+
+1.  La suma de cuadrados interior (wss), la cual nos indica la
+    homogeneidad interna y similitud de los datos.
+
+2.  El score silueta que nos ayuda a identificar la heterogeneidad
+    externa y homogeneidad interna la mismo timepo. Este se define como
+    $SS = \frac{1}{n}\Sigma_{i=1}^n \frac{max(a_i,b_i)}{a_i-b_i}$ donde
+    $a_i$ es la distancia intra cluster promedio del punto $i$ y $b_i$
+    es la distancia promedio a todos los puntos del cluster mas cercano.
+
+3.  La estadística de gap intracluster representa la heterogeneidad
+    externa de manera probabilistica y se define como la desviacion del
+    rango de los clusters de su valor esperado. Se puede leer mas al
+    respecto en \[1\].
+
+Veamos ahora como se ven estas métricas en nuestro ejemplo.
+
+``` r
+require(factoextra)
+require(patchwork)
+
+silhouette <- fviz_nbclust(iris[,-5], kmeans, method = "silhouette")+ 
+  theme_classic()+
+  theme(
+    plot.title = element_blank(),
+    axis.title.x =  element_blank()
+  )
+
+gap_stat <- fviz_nbclust(iris[,-5], kmeans, method = "gap_stat") +
+  theme_classic()+
+  theme(plot.title =  element_blank())
+  
+  
+wss <- fviz_nbclust(iris[,-5], kmeans, method = "wss")+
+  theme_classic()+
+  theme(
+    axis.title.x =  element_blank()
+  )
+
+wss/silhouette/gap_stat
+```
+
+![](README_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+
+Para el caso de suma de cuadrados interior, buscamos un punto “codo”. Es
+decir, donde la pendiente tiene cambios drásticos. Este los podemos
+identificar en $k = 2$ o $k= 3$.
+
+Para el score silueta y el gap, buscamos maximizar el valor. Vemos que
+esto se da en $k = 2$ para el score silueta y $k= 4$ para la estadística
+gap. Esto nos deja con resultados inconclusos.
+
+Si tomamos $k=2$, la estadística gap toma un valor lejano al máximo,
+mientras que si tomamos $k=3$ estaríamos haciendo un compromiso con el
+score silueta. Sabemos de antemano que tenemos 3 especies diferentes
+pero es interesante ver los resultados de aprendizaje no supervisado.
+
+Realizaremos ahora el análisis de clustering y lo compararemos con la
+descomposición en componentes prncipales (para poderlo visualizar en 2
+dimensiones).
+
+``` r
+library(tidyverse)
+pca <- prcomp(iris[,-5])
+
+PCA_data <- pca$x %>% 
+  bind_cols(species=iris[,5])
+
+
+pca_plot <- ggplot(PCA_data, aes(PC1, PC2, color = species))+
+  geom_point()+
+  theme_minimal()+
+  labs(
+    color = 'Especie'
+  )
+
+kmeans_2 <- kmeans(iris[,-5], 2)
+
+kmeans2_plot <- fviz_cluster(kmeans_2, data = iris[,-5], 
+             palette = c("#FC4E07", "#00AFBB", "#E7B800"), 
+             geom = 'point',
+             ellipse.type = "euclid",
+             # star.plot = TRUE, 
+             repel = TRUE, 
+             ggtheme = theme_minimal())
+
+ggsave('kmeans2.png', device= 'png', dpi = 'retina',
+       units = 'cm', width = 20, height = 18)
+
+
+kmeans_3 <- kmeans(iris[,-5], 3)
+
+kmeans3_plot <- fviz_cluster(kmeans_3, data = iris[,-5], 
+             palette = c("#FC4E07", "#00AFBB", "#E7B800"), 
+             geom = 'point',
+             # ellipse.type = "norm",
+             # star.plot = TRUE, 
+             repel = TRUE, 
+             ggtheme = theme_minimal())
+
+pca_plot + kmeans2_plot +kmeans3_plot
+```
+
+![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
+### Bibliografía
+
+\[1\] R. Tibshirani, G. Walther, and T. Hastie (Standford University,
+2001).$\textit{Estimating the number of clusters in a data set via the gap statistic.}$
+<http://web.stanford.edu/~hastie/Papers/gap.pdf>
