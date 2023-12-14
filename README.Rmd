@@ -1,8 +1,8 @@
 ---
+title: "K-means"
+author: "Santiago Casanova, Mateo Guajardo y Raúl Pineda"
+date: "2023-12-14"
 output: github_document
-html_document:
-    includes:
-       in_header: GAfile.html
 ---
 
 ```{r setup, include=FALSE}
