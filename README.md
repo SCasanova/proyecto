@@ -169,9 +169,9 @@ mientras que si tomamos $k=3$ estaríamos haciendo un compromiso con el
 score silueta. Sabemos de antemano que tenemos 3 especies diferentes
 pero es interesante ver los resultados de aprendizaje no supervisado.
 
-Realizaremos ahora el análisis de clustering y lo compararemos con la
-descomposición en componentes prncipales (para poderlo visualizar en 2
-dimensiones).
+Realizaremos ahora el análisis de clustering para $k=2$ y $k=3$ y lo
+compararemos con la descomposición en componentes prncipales (para
+poderlo visualizar en 2 dimensiones).
 
 ``` r
 library(tidyverse)
@@ -193,14 +193,10 @@ kmeans_2 <- kmeans(iris[,-5], 2)
 kmeans2_plot <- fviz_cluster(kmeans_2, data = iris[,-5], 
              palette = c("#FC4E07", "#00AFBB", "#E7B800"), 
              geom = 'point',
-             ellipse.type = "euclid",
+             #ellipse.type = "euclid",
              # star.plot = TRUE, 
              repel = TRUE, 
              ggtheme = theme_minimal())
-
-ggsave('kmeans2.png', device= 'png', dpi = 'retina',
-       units = 'cm', width = 20, height = 18)
-
 
 kmeans_3 <- kmeans(iris[,-5], 3)
 
@@ -212,10 +208,30 @@ kmeans3_plot <- fviz_cluster(kmeans_3, data = iris[,-5],
              repel = TRUE, 
              ggtheme = theme_minimal())
 
-pca_plot + kmeans2_plot +kmeans3_plot
+pca_plot
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
+``` r
+kmeans2_plot
+```
+
+![](README_files/figure-gfm/unnamed-chunk-3-2.png)<!-- -->
+
+``` r
+kmeans3_plot
+```
+
+![](README_files/figure-gfm/unnamed-chunk-3-3.png)<!-- -->
+
+Es claro por qué el clustering con $k=2$ maximiza el score silueta ya
+que los cluster están mucho más separados. Sin embargo, al mirar nuestro
+control (PCA), vemos que hay confusión entre setosa y versicolor así
+como entre versicolor y virginica. Por otro lado, es interesante notar
+cómo en 3-medias, se comienza a diferenciar adecuadamente entre
+versicolor y virginica y setosa se encuentra enteramente en su propio
+cluster.
 
 ### Bibliografía
 
