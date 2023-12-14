@@ -221,6 +221,15 @@ cómo en 3-medias, se comienza a diferenciar adecuadamente entre
 versicolor y virginica y setosa se encuentra enteramente en su propio
 cluster.
 
+### Conclusiones
+
+Es interesante verificar cómo incluso en un análisis no supervisado como
+es K-means, las caracterísiticas de cada especie se pueden distinguir lo
+suficiente como para que los clusters se asemejen a un clasificador. Es
+importante notar como para el caso de $k=3$, parece haber mezcla en los
+clusters pero debemos recordar que estas gráficas son solo la
+representación en 2 dimensiones.
+
 ### Bibliografía
 
 \[1\] R. Tibshirani, G. Walther, and T. Hastie (Standford University,
