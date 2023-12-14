@@ -137,6 +137,7 @@ kmeans_2 <- kmeans(iris[,-5], 2)
 kmeans2_plot <- fviz_cluster(kmeans_2, data = iris[,-5], 
              palette = c("#FC4E07", "#00AFBB", "#E7B800"), 
              geom = 'point',
+             main = 'K=2',
              #ellipse.type = "euclid",
              # star.plot = TRUE, 
              repel = TRUE, 
@@ -147,11 +148,15 @@ kmeans_3 <- kmeans(iris[,-5], 3)
 kmeans3_plot <- fviz_cluster(kmeans_3, data = iris[,-5], 
              palette = c("#FC4E07", "#00AFBB", "#E7B800"), 
              geom = 'point',
+             main = 'K=3',
              # ellipse.type = "norm",
              # star.plot = TRUE, 
              repel = TRUE, 
              ggtheme = theme_minimal())
+```
 
+
+```{r, message=F, echo=F}
 pca_plot
 kmeans2_plot
 kmeans3_plot

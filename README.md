@@ -193,6 +193,7 @@ kmeans_2 <- kmeans(iris[,-5], 2)
 kmeans2_plot <- fviz_cluster(kmeans_2, data = iris[,-5], 
              palette = c("#FC4E07", "#00AFBB", "#E7B800"), 
              geom = 'point',
+             main = 'K=2',
              #ellipse.type = "euclid",
              # star.plot = TRUE, 
              repel = TRUE, 
@@ -203,27 +204,14 @@ kmeans_3 <- kmeans(iris[,-5], 3)
 kmeans3_plot <- fviz_cluster(kmeans_3, data = iris[,-5], 
              palette = c("#FC4E07", "#00AFBB", "#E7B800"), 
              geom = 'point',
+             main = 'K=3',
              # ellipse.type = "norm",
              # star.plot = TRUE, 
              repel = TRUE, 
              ggtheme = theme_minimal())
-
-pca_plot
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
-
-``` r
-kmeans2_plot
-```
-
-![](README_files/figure-gfm/unnamed-chunk-3-2.png)<!-- -->
-
-``` r
-kmeans3_plot
-```
-
-![](README_files/figure-gfm/unnamed-chunk-3-3.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-4-2.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-4-3.png)<!-- -->
 
 Es claro por qué el clustering con $k=2$ maximiza el score silueta ya
 que los cluster están mucho más separados. Sin embargo, al mirar nuestro
