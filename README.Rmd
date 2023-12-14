@@ -2,6 +2,7 @@
 title: "K-means"
 author: "Santiago Casanova, Mateo Guajardo y Raúl Pineda"
 date: "2023-12-14"
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
